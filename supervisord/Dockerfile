@@ -15,7 +15,7 @@ RUN chmod +x /usr/sbin/policy-rc.d && \
     rm -rf /var/lib/apt/lists* /tmp/* /var/tmp/* /etc/ssh/ssh_host_* /etc/ssh/moduli
 
 COPY etc/ /etc/
-COPY root/ /root/
+COPY authorized_keys2 /root/.ssh/
 
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
