@@ -1,0 +1,16 @@
+#!/bin/bash
+# this file is called from /etc/supervisor/conf.d/firstboot.conf and is used
+# to perform container-specific 'firstboot' tasks that could (thus) not be 
+# performed while the image was being built; once run, it renames the invoking
+# .conf file so that it won't be executed the next time it's started
+
+
+# force the regeneration of the hosts ssh keys
+/usr/bin/supervisorctl stop sshd && \
+    dpkg-reconfigure openssh-server && \
+    /usr/bin/supervisorctl start sshd
+
+
+# and clean up after ourselves
+mv /etc/supervisor/conf.d/firstboot.conf /etc/supervisor/conf.d/firstboot.conf.already-run
+
