@@ -69,7 +69,7 @@ RunAsDaemon 0
 ## address y:z.
 
 HiddenServiceDir /var/lib/tor/hidden_service/
-HiddenServicePort 80 web:80
+HiddenServicePort 80 127.0.0.1:80
 
 #HiddenServiceDir /var/lib/tor/other_hidden_service/
 #HiddenServicePort 80 127.0.0.1:80
