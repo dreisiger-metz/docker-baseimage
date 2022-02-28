@@ -9,5 +9,6 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" &&
 COPY etc/ /etc/
 COPY var/ /var/
 
+EXPOSE 80/tcp
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
