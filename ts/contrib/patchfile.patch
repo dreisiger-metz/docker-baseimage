@@ -1,0 +1,59 @@
+diff -u patched/xrdp-installer-1.4.4.sh orig/xrdp-installer-1.4.4.sh
+--- patched/xrdp-installer-1.4.4.sh	2022-12-22 12:46:29.401728524 +0100
++++ orig/xrdp-installer-1.4.4.sh	2022-12-22 12:57:23.277820407 +0100
+@@ -151,21 +151,25 @@
+     echo $cnt 
+ 
+     # Try to Detect automatically Desktop Interface. If multiple options present, create a menu
+-    if [ "$cnt" -gt "1" ]
+-    then 
+-        PS3='Please specify which DE you are using...: '
+-        desk=($(ls /usr/share/xsessions | cut -d "." -f 1))
+-    
+-        select menu in "${desk[@]}";
+-        do
+-        echo -e "\nyou picked $menu ($REPLY)"
+-        break;
++    if [[ -z $XRDP_INSTALLER_DE ]]; then
++        if [ "$cnt" -gt "1" ]
++        then 
++            PS3='Please specify which DE you are using...: '
++            desk=($(ls /usr/share/xsessions | cut -d "." -f 1))
+         
+-        done         
++            select menu in "${desk[@]}";
++            do
++            echo -e "\nyou picked $menu ($REPLY)"
++            break;
++            
++            done         
++        else
++            desk=($(ls /usr/share/xsessions | cut -d "." -f 1))
++            menu=$desk
++            echo "Desktop seems to be based on....: " $menu
++        fi
+     else
+-        desk=($(ls /usr/share/xsessions | cut -d "." -f 1))
+-        menu=$desk
+-        echo "Desktop seems to be based on....: " $menu
++        menu=$XRDP_INSTALLER_DE
+     fi
+ 
+     # Display Menu and set variable to be used 
+@@ -1099,6 +1103,7 @@
+                 echo " ./xrdp-installer-$ScriptVer.sh -l     standard install with custom login screen"
+                 echo " ./xrdp-installer-$ScriptVer.sh        standard install no additional features"
+                 echo
++                echo " XRDP_INSTALL_DE environment variable can be used for non-interactive installations"
+                 exit
+     fi
+  
+@@ -1142,7 +1147,7 @@
+ 	/bin/echo -e "\e[1;31m   !-------------------------------------------------------------!\e[0m"
+ 	echo
+ 	#sh_credits
+-	exit
++	#exit
+ fi
+ 
+ #---------------------------------------------------#
